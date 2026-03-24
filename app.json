@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "pair_up",
+    "name": "Pair Up",
     "slug": "pair_up",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -32,9 +32,8 @@
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "black",
           "dark": {
             "backgroundColor": "#000000"
           }

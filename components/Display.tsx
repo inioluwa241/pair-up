@@ -1,14 +1,18 @@
 import useNameStore from "@/store/usenNamesStore";
 import { lightTheme } from "@/theme";
 import { Ionicons } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const Display = function () {
   const items = useNameStore((state) => state.items);
+  const itemHasBeenReset = useNameStore((state) => state.itemHasBeenReset);
   const namePairs = useNameStore((state) => state.namePairs);
   const addPair = useNameStore((state) => state.addPair);
   const removeName = useNameStore((state) => state.removeName);
+  const updateSavedPairs = useNameStore((state) => state.updateSavedPairs);
+  const savedPairs = useNameStore((state) => state.savedPairs);
+
   const [areNames, setAreNames] = useState(false);
   const [numberOfNames, setNumberOfNames] = useState(0);
   const [isPaired, setIsPaired] = useState(false);
@@ -25,23 +29,42 @@ const Display = function () {
     }
   }, [items]);
 
-  const matchFunction = function () {
-    const shuffled = [...items].sort(() => Math.random() - 0.5);
+  const matchFunction = useCallback(
+    function () {
+      const shuffled = [...items].sort(() => Math.random() - 0.5);
 
-    const namePairs: string[][] = [];
+      const namePairs: string[][] = [];
 
-    for (let i = 0; i < numberOfNames - 1; i += 2) {
-      namePairs.push([shuffled[i], shuffled[i + 1]]);
+      for (let i = 0; i < numberOfNames - 1; i += 2) {
+        namePairs.push([shuffled[i], shuffled[i + 1]]);
+      }
+      const title = `Match ${savedPairs.length + 1}`;
+      const formatDate = (timestamp: number) => {
+        return new Date(timestamp).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
+      };
+      const date = formatDate(Date.now());
+      addPair(namePairs);
+      updateSavedPairs({ title, namePairs, date });
+
+      const leftOut =
+        shuffled.length % 2 !== 0 ? shuffled[shuffled.length - 1] : null;
+      setLeftOutVal(leftOut);
+      setIsPaired(true);
+    },
+    [items, numberOfNames, addPair],
+  );
+
+  useEffect(() => {
+    if (itemHasBeenReset === true) {
+      matchFunction();
+    } else {
+      useNameStore.setState({ itemHasBeenReset: false });
     }
-    addPair(namePairs);
-    const leftOut =
-      shuffled.length % 2 !== 0 ? shuffled[shuffled.length - 1] : null;
-    setLeftOutVal(leftOut);
-    setIsPaired(true);
-
-    console.log("pairs:", namePairs);
-    console.log("left out:", leftOut);
-  };
+  }, [itemHasBeenReset, matchFunction]);
 
   return (
     <View style={styles.display}>

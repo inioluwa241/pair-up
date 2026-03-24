@@ -16,10 +16,8 @@ const AddPeopleCard = function () {
   const [focused, setFocused] = useState(false);
 
   const clickHandler = function () {
-    console.log(text);
-    addItem(text);
+    text.length && addItem(text);
     setText("");
-    console.log(text);
   };
 
   return (
@@ -31,8 +29,10 @@ const AddPeopleCard = function () {
       <View style={styles.inputRow}>
         <TextInput
           placeholder="Enter a Name..."
+          autoFocus
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
+          blurOnSubmit={false}
           style={{
             width: "80%",
             borderWidth: focused ? 2 : 1,

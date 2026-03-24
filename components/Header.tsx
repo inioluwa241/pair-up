@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     height: 45,
   },
   headText: {
-    fontSize: 40,
+    fontSize: 35,
     textTransform: "capitalize",
   },
   clearAll: {

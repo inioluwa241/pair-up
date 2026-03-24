@@ -1,24 +1,23 @@
 import AddPeopleCard from "@/components/AddPeopleCard";
 import Display from "@/components/Display";
-import Header from "@/components/Header";
 import { lightTheme } from "@/theme";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
+  // AsyncStorage.clear();
+
   return (
-    <SafeAreaView>
-      <Header />
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-      >
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false}
+    >
+      <View>
         <View style={styles.screen}>
           <AddPeopleCard />
           <Display />
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      </View>
+    </ScrollView>
   );
 }
 
