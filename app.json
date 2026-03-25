@@ -40,7 +40,7 @@
         {
           "android": {
             "compileSdkVersion": 34,
-            "targetSdkVersion": 3,
+            "targetSdkVersion": 34,
             "buildToolsVersion": "34.0.0",
             "useLegacyPackaging": true
           }
